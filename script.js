@@ -7,6 +7,8 @@ const useRemote = true;
 const remoteURL = "https://projectnodejs-oam0.onrender.com/users";
 const localURL = "./data/response.json";
 
+const gamesURL = "https://projectnodejs-oam0.onrender.com/videogames";
+
 // ------- DOM -------
 const alertBox = document.querySelector(".alert");
 const spinner = document.querySelector(".spinner-border");
@@ -111,6 +113,31 @@ function displayUsers(list) {
   addEventListeners();
 }
 
+function displayGames(games) {
+  const container = document.getElementById("games-container");
+  container.innerHTML = "";
+
+  games.forEach((game) => {
+    const col = document.createElement("div");
+    col.className = "col-12 col-sm-6 col-lg-4";
+
+    col.innerHTML = `
+      <article class="card glass-card h-100 text-center p-3">
+        <h5 class="card-title">${game.title}</h5>
+        <ul class="list-group list-group-flush text-start">
+          <li class="list-group-item">Genre: ${game.genre || "–"}</li>
+          <li class="list-group-item">Platform: ${game.platform || "–"}</li>
+          <li class="list-group-item">Released: ${game.releaseYear || "–"}</li>
+          <li class="list-group-item">Rating: ${game.rating ?? "–"}</li>
+          <li class="list-group-item">Price: ${game.price ?? "–"} €</li>
+        </ul>
+      </article>
+    `;
+
+    container.appendChild(col);
+  });
+}
+
 // ------- make buttons functional -------
 const addEventListeners = () => {
   const editButtons = document.querySelectorAll(".edit-btn");
@@ -186,5 +213,22 @@ saveBtn.addEventListener("click", async () => {
   if (index !== -1) users[index] = { ...users[index], ...updated };
 });
 
+async function loadGames() {
+  const spinner = document.querySelector(".spinner-border");
+  spinner.classList.remove("d-none");
+
+  try {
+    const data = await getJSON(gamesURL);
+    const games = Array.isArray(data) ? data : data?.videogames || [];
+
+    displayGames(games);
+  } catch (error) {
+    showAlert("Failed to load games: " + error.message, "danger");
+  } finally {
+    spinner.classList.add("d-none");
+  }
+}
+
 // ------- Init -------
 loadData();
+loadGames();

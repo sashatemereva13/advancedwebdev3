@@ -4,7 +4,7 @@ import { updateCard } from "./utils/putData.js";
 
 // ------- Config -------
 const useRemote = true;
-const remoteURL = "https://easy-simple-users-rest-api.onrender.com/api/users";
+const remoteURL = "https://projectnodejs-oam0.onrender.com/users";
 const localURL = "./data/response.json";
 
 // ------- DOM -------
@@ -29,7 +29,7 @@ async function getJSON(url) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      my_key: "my_super_secret_phrase",
+      "x-api-key": "tralala",
     },
   });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);

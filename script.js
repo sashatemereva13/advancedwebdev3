@@ -219,7 +219,7 @@ async function loadGames() {
 
   try {
     const data = await getJSON(gamesURL);
-    const games = Array.isArray(data) ? data : data?.videogames || [];
+    const games = Array.isArray(data) ? data : data.videogames || [];
 
     displayGames(games);
   } catch (error) {

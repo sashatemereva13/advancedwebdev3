@@ -9,7 +9,7 @@ export const putData = async (url, usersData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        my_key: "my_super_secret_phrase",
+        "x-api-key": "tralala",
       },
       body: JSON.stringify(usersData),
     });
